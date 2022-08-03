@@ -1,6 +1,7 @@
 package proyecto_serviciosocial;
 
 import java.awt.Dimension;
+import java.awt.Toolkit;
 
 /**
  * @author Eduardo Leyva Bradley
@@ -12,10 +13,10 @@ public class FramePrincipal extends javax.swing.JFrame {
     public FramePrincipal() {
         super("Secretaria de Comunicaciones y Transportes");
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/icon.jpg")));
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);
-        this.setSize(1050,850);
     }
 
     @SuppressWarnings("unchecked")
@@ -27,9 +28,9 @@ public class FramePrincipal extends javax.swing.JFrame {
         paneRegistro = new javax.swing.JPanel();
         scroll = new javax.swing.JScrollPane();
         panelConsulta = new javax.swing.JPanel();
+        scrollCon = new javax.swing.JScrollPane();
         panelModificar = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        panelMod2 = new proyecto_serviciosocial.PanelMod();
+        scrollMod = new javax.swing.JScrollPane();
         LOGO = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -42,7 +43,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         paneRegistro.setLayout(paneRegistroLayout);
         paneRegistroLayout.setHorizontalGroup(
             paneRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 1020, Short.MAX_VALUE)
+            .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 1004, Short.MAX_VALUE)
         );
         paneRegistroLayout.setVerticalGroup(
             paneRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -62,38 +63,48 @@ public class FramePrincipal extends javax.swing.JFrame {
         panelConsulta.setLayout(panelConsultaLayout);
         panelConsultaLayout.setHorizontalGroup(
             panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1020, Short.MAX_VALUE)
+            .addComponent(scrollCon, javax.swing.GroupLayout.DEFAULT_SIZE, 1004, Short.MAX_VALUE)
         );
         panelConsultaLayout.setVerticalGroup(
             panelConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 524, Short.MAX_VALUE)
+            .addComponent(scrollCon, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE)
         );
+
+        panelCons_1 cons=new panelCons_1();
+        cons.setPreferredSize(new Dimension (500,1200));
+        cons.setVisible(true);
+        scrollCon.setViewportView(cons);
 
         jTabbedPane1.addTab("Consultas", panelConsulta);
 
         panelModificar.setBackground(new java.awt.Color(255, 255, 255));
 
-        jScrollPane1.setViewportView(panelMod2);
-
         javax.swing.GroupLayout panelModificarLayout = new javax.swing.GroupLayout(panelModificar);
         panelModificar.setLayout(panelModificarLayout);
         panelModificarLayout.setHorizontalGroup(
             panelModificarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1020, Short.MAX_VALUE)
+            .addComponent(scrollMod, javax.swing.GroupLayout.DEFAULT_SIZE, 1004, Short.MAX_VALUE)
         );
         panelModificarLayout.setVerticalGroup(
             panelModificarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
+            .addComponent(scrollMod, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE)
         );
 
+        PanelMod mod=new PanelMod();
+        mod.setPreferredSize(new Dimension (500,900));
+        mod.setVisible(true);
+        scrollMod.setViewportView(mod);
+
         jTabbedPane1.addTab("Modificar o Eliminar Registro", panelModificar);
+
+        LOGO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/LOGO-SCT.jpg"))); // NOI18N
 
         javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
         panelFondo.setLayout(panelFondoLayout);
         panelFondoLayout.setHorizontalGroup(
             panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFondoLayout.createSequentialGroup()
-                .addGap(147, 147, 147)
+                .addGap(156, 156, 156)
                 .addComponent(LOGO)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(panelFondoLayout.createSequentialGroup()
@@ -160,13 +171,13 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LOGO;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel paneRegistro;
     private javax.swing.JPanel panelConsulta;
     private javax.swing.JPanel panelFondo;
-    private proyecto_serviciosocial.PanelMod panelMod2;
     private javax.swing.JPanel panelModificar;
     private javax.swing.JScrollPane scroll;
+    private javax.swing.JScrollPane scrollCon;
+    private javax.swing.JScrollPane scrollMod;
     // End of variables declaration//GEN-END:variables
 }

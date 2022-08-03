@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 //import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 //import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,7 +80,7 @@ public class PanelRegistro extends javax.swing.JPanel {
         txtDiaBaja = new javax.swing.JTextField();
         txtMesBaja = new javax.swing.JTextField();
         txtAnoBaja = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        BoxBaja = new javax.swing.JComboBox<>();
         lbMotivo1 = new javax.swing.JLabel();
         lbMotivo2 = new javax.swing.JLabel();
 
@@ -199,7 +202,7 @@ public class PanelRegistro extends javax.swing.JPanel {
 
         btnGuardar.setBackground(new java.awt.Color(255, 255, 255));
         btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
-        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyecto_serviciosocial/guardar.png"))); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/guardar.png"))); // NOI18N
         btnGuardar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -209,7 +212,7 @@ public class PanelRegistro extends javax.swing.JPanel {
 
         btnCancelar.setBackground(new java.awt.Color(255, 255, 255));
         btnCancelar.setForeground(new java.awt.Color(255, 255, 255));
-        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyecto_serviciosocial/cancel.png"))); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancel.png"))); // NOI18N
         btnCancelar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -253,7 +256,7 @@ public class PanelRegistro extends javax.swing.JPanel {
 
         txtAnoBaja.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RENUNCIA", "JUBILADO", "Item 3", "Item 4" }));
+        BoxBaja.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RENUNCIA", "JUBILADO", "Item 3", "Item 4" }));
 
         lbMotivo1.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         lbMotivo1.setForeground(new java.awt.Color(0, 0, 0));
@@ -359,7 +362,7 @@ public class PanelRegistro extends javax.swing.JPanel {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelRegistroLayout.createSequentialGroup()
                                 .addComponent(lbMotivo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(BoxBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 402, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(panelRegistroLayout.createSequentialGroup()
                                 .addComponent(lbBaja)
@@ -492,7 +495,7 @@ public class PanelRegistro extends javax.swing.JPanel {
                 .addGap(48, 48, 48)
                 .addGroup(panelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbMotivo)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BoxBaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(55, 55, 55)
                 .addGroup(panelRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -517,59 +520,170 @@ public class PanelRegistro extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        String sql, filiacion,curp,rfc,homoclave,apellido_paterno, apellido_materno,nombre,calle,numero,colonia,
-                codigo_postal,ciudad,estado,ingreso,ingreso_letra,baja,baja_letra,motivo_baja;
-        String fechaIng,fechaBaja;
-        filiacion = txtFiliacion.getText();
-        curp = txtCurp.getText();
-        rfc = txtRfc.getText();
-        homoclave = txtHomo.getText();
-        apellido_paterno = txtPaterno.getText();
-        apellido_materno = txtMaterno.getText();
-        nombre = txtNombre.getText();
-        calle = txtCalle.getText();
-        numero = txtNumeroExt.getText();
-        colonia = txtColonia.getText();
-        codigo_postal = txtCP.getText();
-        ciudad = txtCiudad.getText();
-        estado = txtEstado.getText();
-        fechaIng=txtDiaIng.getText()+"/"+txtMesIng.getText()+"/"+txtAnoIng.getText();
-        ingreso = fechaIng;
-        ingreso_letra = txtNombre.getText();
-        fechaBaja=txtDiaBaja.getText()+"/"+txtMesBaja.getText()+"/"+txtAnoBaja.getText();
-        baja = fechaBaja;
-        baja_letra = txtNombre.getText();
-        motivo_baja = txtNombre.getText();
-        
-        //insertar en la tabla PERSONAL (campos de la tabla)valores (variables)
-        sql = "INSERT INTO personal (filiacion) VALUES (?)";
-        try {
-            System.out.println("---INICIA REGISTRO DE DATOS----");
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, filiacion);
-//            ps.setString(2, curp);
-//            ps.setString(3, rfc);
-            ps.executeUpdate();
-            //verTabla();
-            JOptionPane.showMessageDialog(null, "Registro Guardado");
-            //limpiar();
-        } catch (SQLException ex) {
-            Logger.getLogger(PanelRegistro.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("NO SE GUARDARON LOS DATOS!!!");
-        }
-        
+        if (Completado()) {
+            JOptionPane.showMessageDialog(null, "La información ingresada esta incompleta\nFavor de completarla", "Información Incompleta", JOptionPane.WARNING_MESSAGE);
+        } else {
+            String sql, filiacion, curp, rfc, homoclave, apellido_paterno, apellido_materno, nombre, calle, numero, colonia,
+                    codigo_postal, ciudad, estado, ingreso_letra, baja_letra, motivo_baja;
 
+            String fechaIng, fechaBaja;
+            filiacion = txtFiliacion.getText();
+            curp = txtCurp.getText();
+            rfc = txtRfc.getText();
+            homoclave = txtHomo.getText();
+            apellido_paterno = txtPaterno.getText();
+            apellido_materno = txtMaterno.getText();
+            nombre = txtNombre.getText();
+            calle = txtCalle.getText();
+            numero = txtNumeroExt.getText();
+            colonia = txtColonia.getText();
+            codigo_postal = txtCP.getText();
+            ciudad = txtCiudad.getText();
+            estado = txtEstado.getText();
+            fechaIng = txtDiaIng.getText() + "/" + txtMesIng.getText() + "/" + txtAnoIng.getText();
+            //ingreso = fechaIng;
+            ingreso_letra = txtIngresoL.getText();
+            fechaBaja = txtDiaBaja.getText() + "/" + txtMesBaja.getText() + "/" + txtAnoBaja.getText();
+            //baja = fechaBaja;
+            baja_letra = txtBajaL.getText();
+            motivo_baja = (String) BoxBaja.getSelectedItem();
+
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            Date fecha = null;
+            try {
+                fecha = formato.parse(fechaIng);
+                System.out.println(fecha);
+            } catch (ParseException ex) {
+                Logger.getLogger(PanelRegistro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            String formattedDate = simpleDateFormat.format(fecha);
+
+            java.sql.Date ingreso = java.sql.Date.valueOf(formattedDate);
+
+            try {
+                fecha = formato.parse(fechaBaja);
+                System.out.println(fecha);
+            } catch (ParseException ex) {
+                Logger.getLogger(PanelRegistro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+
+            String formattedDate1 = simpleDateFormat1.format(fecha);
+
+            java.sql.Date baja = java.sql.Date.valueOf(formattedDate1);
+
+            //insertar en la tabla PERSONAL (campos de la tabla)valores (variables)
+            sql = "INSERT INTO personal (filiacion,curp,rfc,homoclave,apellido_paterno,"
+                    + "apellido_materno,nombre,calle,numero,colonia,codigo_postal,"
+                    + "ciudad,estado,ingreso,ingreso_letra,baja,baja_letra,motivo_baja) "
+                    + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            try {
+                System.out.println("---INICIA REGISTRO DE DATOS----");
+                //System.out.println("Filiacion: "+filiacion);
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setString(1, filiacion);
+                ps.setString(2, curp);
+                ps.setString(3, rfc);
+                ps.setString(4, homoclave);
+                ps.setString(5, apellido_paterno);
+                ps.setString(6, apellido_materno);
+                ps.setString(7, nombre);
+                ps.setString(8, calle);
+                ps.setString(9, numero);
+                ps.setString(10, colonia);
+                ps.setString(11, codigo_postal);
+                ps.setString(12, ciudad);
+                ps.setString(13, estado);
+                ps.setDate(14, ingreso);
+                ps.setString(15, ingreso_letra);
+                ps.setDate(16, baja);
+                ps.setString(17, baja_letra);
+                ps.setString(18, motivo_baja);
+                ps.executeUpdate();
+                //verTabla();
+                JOptionPane.showMessageDialog(null, "Registro Guardado");
+                //limpiar();
+            } catch (SQLException ex) {
+                Logger.getLogger(PanelRegistro.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("NO SE GUARDARON LOS DATOS!!!");
+            }
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        int res = JOptionPane.showConfirmDialog(null, "Estas seguro que deseas cancelar?\nSi cancelas no se realizaran los cambios que hayas hecho","ALERTA!!!",JOptionPane.YES_NO_OPTION);
+        // 0=yes, 1=no, 2=cancel
+        
+        if(res == 0){
+            Limpiar();
+        }
+        
     }//GEN-LAST:event_btnCancelarActionPerformed
-
+    
+    public void Limpiar(){
+        txtFiliacion.setText(null);
+        txtCurp.setText(null);
+        txtRfc.setText(null);
+        txtHomo.setText(null);
+        txtPaterno.setText(null);
+        txtMaterno.setText(null);
+        txtNombre.setText(null);
+        txtCalle.setText(null);
+        txtNumeroExt.setText(null);
+        txtColonia.setText(null);
+        txtCP.setText(null);
+        txtCiudad.setText(null);
+        txtEstado.setText(null);
+        txtIngresoL.setText(null);
+        txtBajaL.setText(null);
+    }
+    
+    public boolean Completado(){
+        boolean complete = false;
+        
+        //Si se encuentran celdas vacias se cambia a "true el valor"
+        if (txtFiliacion.getText().equals("")) {
+            complete = true;
+        } else if (txtCurp.getText().equals("")) {
+            complete = true;
+        } else if (txtRfc.getText().equals("")) {
+            complete = true;
+        } else if (txtHomo.getText().equals("")) {
+            complete = true;
+        } else if (txtPaterno.getText().equals("")) {
+            complete = true;
+        } else if (txtMaterno.getText().equals("")) {
+            complete = true;
+        } else if (txtNombre.getText().equals("")) {
+            complete = true;
+        } else if (txtCalle.getText().equals("")) {
+            complete = true;
+        } else if (txtNumeroExt.getText().equals("")) {
+            complete = true;
+        } else if (txtColonia.getText().equals("")) {
+            complete = true;
+        } else if (txtCP.getText().equals("")) {
+            complete = true;
+        } else if (txtCiudad.getText().equals("")) {
+            complete = true;
+        } else if (txtEstado.getText().equals("")) {
+            complete = true;
+        } else if (txtIngresoL.getText().equals("")) {
+            complete = true;
+        } else if (txtBajaL.getText().equals("")) {
+            complete = true;
+        }
+        
+        return complete;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> BoxBaja;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel lbBaja;
     private javax.swing.JLabel lbBajaL;
     private javax.swing.JLabel lbCP;
