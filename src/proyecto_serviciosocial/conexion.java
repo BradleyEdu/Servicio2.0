@@ -10,7 +10,7 @@ public class conexion {
     Statement st = null;
     
     public conexion(){
-        String rutafile = "C:\\Users\\bradl\\Desktop\\BD_ServicioSocial\\ISSSTE 2014_be.accdb";
+        String rutafile = "C:\\Users\\dog_a\\Documents\\Servicio_Social\\BD_Servicio\\ISSSTE 2014_be.accdb";
         String Url = "jdbc:ucanaccess://" + rutafile;
         
         try {
